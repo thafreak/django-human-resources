@@ -5,11 +5,11 @@ import setuptools
 from distutils.core import setup
 import os, sys
 
-version = __import__('hr').VERSION
+version = __import__('human_resources').VERSION
 
 
 setup(
-    name = 'django-hr',
+    name = 'django-human-resources',
     #version = version,
     description = "A simple django admin-powered application that allows businesses to manage their human resources workflows.",
     author = 'Ryan Archdeacon',
