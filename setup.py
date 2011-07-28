@@ -15,7 +15,7 @@ setup(
     author = 'Ryan Archdeacon',
     author_email = 'ryan@theprojecta.com',
     url = 'https://github.com/archie86/django-human-resources',
-    packages = ['legal'],
+    packages = ['human_resources'],
     include_package_data=True,
 	install_requires=[
 		'Django>=1.2',
