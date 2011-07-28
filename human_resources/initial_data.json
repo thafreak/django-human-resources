@@ -1,0 +1,30 @@
+[
+	{
+		"model": "human_resources.contracttype",
+		"pk": 1,
+		"fields": {
+			"name": "Full-Time"
+		}
+	},
+	{
+		"model": "human_resources.contracttype",
+		"pk": 2,
+		"fields": {
+			"name": "Part-Time"
+		}
+	},
+	{
+		"model": "human_resources.contracttype",
+		"pk": 3,
+		"fields": {
+			"name": "Internship"
+		}
+	},
+	{
+		"model": "human_resources.contracttype",
+		"pk": 4,
+		"fields": {
+			"name": "Contract"
+		}
+	}
+]

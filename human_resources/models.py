@@ -1,6 +1,7 @@
 import datetime
 
 from django.db import models
+from django.contrib.localflavor.us.models import PhoneNumberField, USStateField
 
 IMPORTANCE_CHOICES = (
 	(1, 1),
@@ -34,6 +35,7 @@ class Person(HRModel):
 	email = models.EmailField(blank=True)
 	mobile_phone = PhoneNumberField(blank=True)
 	other_phone = PhoneNumberField(blank=True)
+	
 	address = models.CharField(max_length=125, blank=True)
 	address_two = models.CharField("Address 2", max_length=125, blank=True)
 	city = models.CharField(max_length=50, blank=True)
@@ -41,15 +43,16 @@ class Person(HRModel):
 	zip_code = models.CharField(max_length=5, blank=True)
 	
 	twitter_handle = models.SlugField(max_length=35, blank=True)
+	google_plus_url = models.URLField("Google+ URL", verify_exists=True, blank=True)
 	facebook_url = models.URLField(verify_exists=True, blank=True)
 	linked_in_url = models.URLField(verify_exists=True, blank=True)
 	
-	website = models.URLField(blank=True)
-	website_two = models.URLField("Website 2", blank=True)
-	website_three = models.URLField("Website 3", blank=True)
-	
-	class Meta(Person.Meta):
+	class Meta:
 		verbose_name_plural = 'people'
+		ordering = ('-last_name',)
+	
+	def __unicode__(self):
+		return self.first_name + " " + self.last_name
 
 
 class WebLink(HRModel):
@@ -67,22 +70,29 @@ class WebLink(HRModel):
 
 class Qualification(HRModel):
 	description = models.TextField()
-	role = models.ForeignKey("Role")
+	role = models.ForeignKey("Role", related_name="qualifications")
 
 	def __unicode__(self):
-		return "%s: %s" %(self.position, self.description[:15] + '...')
+		return "%s: %s" %(self.role, self.description[:15] + '...')
+	
+	class Meta:
+		unique_together = ('description', 'role')
+		ordering = ('role__name',)
 
 
-class NiceToHaves(HRModel):
+class NiceToHave(HRModel):
 	description = models.TextField()
-	role = models.ForeignKey("Role")
+	role = models.ForeignKey("Role", related_name="nice_to_haves")
 
 	def __unicode__(self):
-		return "%s: %s" %(self.position, self.description[:15] + '...')
+		return "%s: %s" %(self.role, self.description[:15] + '...')
+	
+	class Meta:
+		unique_together = ('description', 'role')
 
 
 class Role(HRModel):
-	name = models.CharField(max_length=45)
+	name = models.CharField(max_length=45, unique=True)
 	description = models.TextField(blank=True)
 	
 	def __unicode__(self):
@@ -115,7 +125,7 @@ class Position(HRModel):
 		super(Position, self).save()
 	
 	def __unicode__(self):
-		return "%s Position (%s)" %(self.name, self.status)
+		return "%s Position (%s)" %(self.name, self.get_status_display())
 
 
 class ContractType(HRModel):
@@ -127,7 +137,7 @@ class ContractType(HRModel):
 	def __unicode__(self):
 		return self.name
 
-class JobOpportuntity(HRModel):
+class JobOpportunity(HRModel):
 	OPPORTUNITY_STATUS_CHOICES = (
 		(1, 'unpublished'),
 		(2, 'published'),
@@ -136,23 +146,27 @@ class JobOpportuntity(HRModel):
 	status = models.PositiveSmallIntegerField(choices=OPPORTUNITY_STATUS_CHOICES, default=1)
 	position = models.ForeignKey("Position")
 	location = models.CharField(max_length=150, default="Tustin, CA (Orange County)")
-	contract_type = models.ManyToManyField()
+	contract_types = models.ManyToManyField("ContractType")
 	
 	def __unicode__(self):
-		return "%s"
+		return "%s - %s" %(self.position, self.location)
 	
+	class Meta:
+		verbose_name_plural = 'job opportunities'
 
 
-class Candidate(HRModel):
-	position = models.ForeignKey("Position")
-	person = models.ForeignKey("Person")
+class Candidacy(HRModel):
+	job_opportunity = models.ForeignKey("JobOpportunity")
+	person = models.ForeignKey("Person", related_name="candidacy_set")
 	rank = models.PositiveSmallIntegerField(choices=IMPORTANCE_CHOICES, default=5)
 	
 	class Meta:
 		ordering = ('rank',)
+		verbose_name_plural = 'candidacies'
+		unique_together = ('person', 'job_opportunity')
 	
 	def __unicode__(self):
-		return "%s Candidate: %s" %(self.position, self.person)
+		return "%s Candidacy: %s" %(self.job_opportunity, self.person)
 
 
 class Interview(HRModel):
@@ -167,7 +181,7 @@ class Interview(HRModel):
 	evaluation = models.ForeignKey("Evaluation")
 	
 	def __unicode__(self):
-		return "%s %s Interview (%s)" %(self.evaluation.candidate, self.interview_type, self.date.strftime("%m/%d/%y"))
+		return "%s %s Interview (%s)" %(self.evaluation.candidacy, self.interview_type, self.date.strftime("%m/%d/%y"))
 
 class Evaluation(HRModel):
 	EVALUATION_STATUS_CHOICES = (
@@ -177,9 +191,10 @@ class Evaluation(HRModel):
 		
 	
 	status = models.PositiveSmallIntegerField(choices=EVALUATION_STATUS_CHOICES, default=1)
-	candidate = models.ForeignKey("Candidate")
+	candidacy = models.ForeignKey("Candidacy")
 	satisfied_qualifications = models.ManyToManyField("Qualification", blank=True, null=True)
+	satisfied_nice_to_haves = models.ManyToManyField("NiceToHave", blank=True, null=True)
 	
 	
 	def __unicode__(self):
-		return "%s Evaluation: %s (%s)" %(self.candidate.position, self.candidate, self.status)
+		return "%s Evaluation for %s (%s)" %(self.candidacy.job_opportunity, self.candidacy.person, self.get_status_display())
