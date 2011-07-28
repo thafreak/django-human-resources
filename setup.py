@@ -14,7 +14,7 @@ setup(
     description = "A simple django admin-powered application that allows businesses to manage their human resources workflows.",
     author = 'Ryan Archdeacon',
     author_email = 'ryan@theprojecta.com',
-    url = 'https://github.com/archie86/django-hr',
+    url = 'https://github.com/archie86/django-human-resources',
     packages = ['legal'],
     include_package_data=True,
 	install_requires=[
