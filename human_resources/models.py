@@ -70,7 +70,7 @@ class WebLink(HRModel):
 
 class Qualification(HRModel):
 	description = models.CharField(max_length=250)
-	role = models.ForeignKey("Role", related_name="qualifications")
+	role = models.ForeignKey("Responsibility", related_name="qualifications")
 
 	def __unicode__(self):
 		return "%s: %s" %(self.role, self.description[:15] + '...')
@@ -82,7 +82,7 @@ class Qualification(HRModel):
 
 class NiceToHave(HRModel):
 	description = models.CharField(max_length=250)
-	role = models.ForeignKey("Role", related_name="nice_to_haves")
+	role = models.ForeignKey("Responsibility", related_name="nice_to_haves")
 
 	def __unicode__(self):
 		return "%s: %s" %(self.role, self.description[:15] + '...')
@@ -91,7 +91,7 @@ class NiceToHave(HRModel):
 		unique_together = ('description', 'role')
 
 
-class Role(HRModel):
+class Responsibility(HRModel):
 	name = models.CharField(max_length=45, unique=True)
 	description = models.TextField(blank=True)
 	
@@ -111,7 +111,7 @@ class Position(HRModel):
 	importance = models.PositiveSmallIntegerField(choices=IMPORTANCE_CHOICES, default=5)
  	private_description = models.TextField("Why it's important", blank=True)
 	public_description = models.TextField(blank=True)
-	roles = models.ManyToManyField("Role", blank=True, null=True)
+	responsibilities = models.ManyToManyField("Responsibility", blank=True, null=True)
 	
 	class Meta:
 		ordering = ('-importance',)

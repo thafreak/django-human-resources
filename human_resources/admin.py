@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.db.models import URLField
 from django.http import HttpResponseRedirect
 
-from human_resources.models import Person, WebLink, JobOpportunity, NiceToHave, Candidacy, Position, Qualification, Role, ContractType, Evaluation, Interview
+from human_resources.models import Person, WebLink, JobOpportunity, NiceToHave, Candidacy, Position, Qualification, Responsibility, ContractType, Evaluation, Interview
 from human_resources.forms import EvaluationAddForm, EvaluationChangeForm
 from human_resources.widgets import WebLinkWidget
 
@@ -83,7 +83,7 @@ class NiceToHaveInline(HRTabularInline):
 	extra = 0
 
 
-class RoleAdmin(HRAdmin):
+class ResponsibilityAdmin(HRAdmin):
 	inlines = [QualificationInline, NiceToHaveInline]
 	list_display = ('name', 'description')
 	
@@ -102,26 +102,26 @@ class PositionAdmin(HRAdmin):
 		return super(PositionAdmin, self).changelist_view(request, extra_context=extra_context)
 	
 	
-	def position_roles(self, item):
+	def position_responsibilities(self, item):
 		html = ''
 		
-		if item.roles.all():
-			for role in item.roles.all():
+		if item.responsibilities.all():
+			for role in item.responsibilities.all():
 				html = html + '<li style="list-style-type: disc; list-style-position: inside; "><a href="/admin/human_resources/role/' + str(role.id) + '/">' + str(role) + '</a></li>'
 			html = '<ul>' + html + '</ul>'
 		
 		return html
-	position_roles.allow_tags = True
+	position_responsibilities.allow_tags = True
 	
-	filter_horizontal = ('roles',)
-	list_filter = ('status','roles')
-	list_display = ('name', 'private_description', 'position_roles', 'importance', 'status')
+	filter_horizontal = ('responsibilities',)
+	list_filter = ('status','responsibilities')
+	list_display = ('name', 'private_description', 'position_responsibilities', 'importance', 'status')
 	fieldsets = (
 		('', {
 			"fields": ('status',),
 		}),
 		('General Info', {
-			"fields": ('name', 'importance', 'private_description', 'roles', 'public_description'),
+			"fields": ('name', 'importance', 'private_description', 'responsibilities', 'public_description'),
 		}),
 	)
 
@@ -175,18 +175,18 @@ class EvaluationAdmin(admin.ModelAdmin):
 		return super(EvaluationAdmin, self).changelist_view(request, extra_context=extra_context)
 	
 	
-	def qualifications(self, item):
+	def qualifications(self, item):Responsibility
 		html = ''
 		
 		# loop through all qualifications for this evaluation's candidacy's
 		# job opportunity
 		
-		relevant_roles = item.candidacy.job_opportunity.position.roles.all()
+		relevant_responsibilities = item.candidacy.job_opportunity.position.responsibilities.all()
 		
 		qualifications = []
 		
-		if relevant_roles:
-			for role in relevant_roles:
+		if relevant_responsibilities:
+			for role in relevant_responsibilities:
 				if role.qualifications.all():
 					for q in role.qualifications.all():
 						
@@ -216,12 +216,12 @@ class EvaluationAdmin(admin.ModelAdmin):
 	def nice_to_haves(self, item):
 		html = ''
 		
-		relevant_roles = item.candidacy.job_opportunity.position.roles.all()
+		relevant_responsibilities = item.candidacy.job_opportunity.position.responsibilities.all()
 		
 		nice_to_haves = []
 		
-		if relevant_roles:
-			for role in relevant_roles:
+		if relevant_responsibilities:
+			for role in relevant_responsibilities:
 				if role.nice_to_haves.all():
 					for n in role.nice_to_haves.all():
 						
@@ -300,4 +300,4 @@ admin.site.register(JobOpportunity, JobOpportunityAdmin)
 admin.site.register(Position, PositionAdmin)
 admin.site.register(Evaluation, EvaluationAdmin)
 admin.site.register(Person, PersonAdmin)
-admin.site.register(Role, RoleAdmin)
+admin.site.register(Responsibility, ResponsibilityAdmin)
