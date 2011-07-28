@@ -175,9 +175,8 @@ class EvaluationAdmin(admin.ModelAdmin):
 		return super(EvaluationAdmin, self).changelist_view(request, extra_context=extra_context)
 	
 	
-	def qualifications(self, item):Responsibility
-		html = ''
-		
+	def qualifications(self, item):
+		html = ''		
 		# loop through all qualifications for this evaluation's candidacy's
 		# job opportunity
 		
