@@ -69,7 +69,7 @@ class WebLink(HRModel):
 	
 
 class Qualification(HRModel):
-	description = models.TextField()
+	description = models.CharField(max_length=500)
 	role = models.ForeignKey("Role", related_name="qualifications")
 
 	def __unicode__(self):
@@ -81,7 +81,7 @@ class Qualification(HRModel):
 
 
 class NiceToHave(HRModel):
-	description = models.TextField()
+	description = models.CharField(max_length=500)
 	role = models.ForeignKey("Role", related_name="nice_to_haves")
 
 	def __unicode__(self):
