@@ -106,7 +106,7 @@ class Position(HRModel):
 		(3, "Closed"),
 	)
 	
-	name = models.CharField(max_length=25)
+	name = models.CharField(max_length=75)
 	status = models.PositiveSmallIntegerField(choices=POSITION_STATUS, default=1)
 	importance = models.PositiveSmallIntegerField(choices=IMPORTANCE_CHOICES, default=5)
  	private_description = models.TextField("Why it's important", blank=True)
