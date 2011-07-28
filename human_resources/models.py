@@ -97,6 +97,9 @@ class Responsibility(HRModel):
 	
 	def __unicode__(self):
 		return self.name
+	
+	class Meta:
+		verbose_name_plural = 'responsibilities'
 
 
 class Position(HRModel):
