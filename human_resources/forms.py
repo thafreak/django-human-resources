@@ -21,6 +21,7 @@ class EvaluationChangeForm(forms.ModelForm):
 		job_opportunity_position = job_opportunity.position
 		relevant_roles = job_opportunity_position.responsibilities.all()
 		
+		
 		# calcualte the ids for the relevant roles for use in querying
 		# qualifications and nice to haves
 		relevant_roles_ids = []
