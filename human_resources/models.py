@@ -35,6 +35,19 @@ class HRModel(models.Model):
 
 class Person(HRModel):
 	
+	PERSON_STATUS_CHOICES = (
+		(0, "Candidate"),
+		(0, "Of Interest"),
+		(0, "Employee"),
+		(0, "Former Employee"),
+		(0, "Independent Contractor"),
+		(0, "Former Independent Contractor"),
+		(0, "Intern"),
+		(0, "Former Intern"),
+	)
+	
+	status = models.IntegerField(choices=PERSON_STATUS_CHOICES, default=0)
+	
 	first_name = models.CharField(max_length=25)
 	middle_name = models.CharField(max_length=25, blank=True)
 	last_name = models.CharField(max_length=25)
@@ -59,7 +72,7 @@ class Person(HRModel):
 		ordering = ('-last_name',)
 	
 	def __unicode__(self):
-		return self.first_name + " " + self.last_name
+		return "%s %s (%s)" %(self.first_name, self.last_name, self.get_status_display())
 
 
 class WebLink(HRModel):
