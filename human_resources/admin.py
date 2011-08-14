@@ -121,7 +121,7 @@ class ResponsibilityInline(HRTabularInline):
 	extra = 0
 
 class PositionAdmin(HRAdmin):
-	
+	'''
 	def changelist_view(self, request, extra_context=None):
 		try:
 			test = request.META['HTTP_REFERER'].split(request.META['PATH_INFO'])
@@ -131,7 +131,7 @@ class PositionAdmin(HRAdmin):
 				return HttpResponseRedirect(request.path + '?status__exact=1')
 		except: pass # no referrer
 		return super(PositionAdmin, self).changelist_view(request, extra_context=extra_context)
-	
+	'''
 	
 	def position_responsibilities(self, item):
 		html = ''
