@@ -36,14 +36,14 @@ class HRModel(models.Model):
 class Person(HRModel):
 	
 	PERSON_STATUS_CHOICES = (
-		(0, "Candidate"),
 		(0, "Of Interest"),
-		(0, "Employee"),
-		(0, "Former Employee"),
-		(0, "Independent Contractor"),
-		(0, "Former Independent Contractor"),
-		(0, "Intern"),
-		(0, "Former Intern"),
+		(1, "Candidate"),
+		(2, "Employee"),
+		(3, "Former Employee"),
+		(4, "Independent Contractor"),
+		(5, "Former Independent Contractor"),
+		(6, "Intern"),
+		(7, "Former Intern"),
 	)
 	
 	status = models.IntegerField(choices=PERSON_STATUS_CHOICES, default=0)
