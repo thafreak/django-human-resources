@@ -159,15 +159,9 @@ class JobOpportunityAdmin(HRAdmin):
 	def contract_types_available(self, item):
 		html = ""
 		if item.contract_types.exists():
-			types_chain = chain(item.contract_types.all())
-			
-			while True:
-				try:
-					elem = types_chain.next()
-					html = html + elem.name + ", "
-				except StopIteration:
-					html = html[:-2] # account for ' ' and ','
-					break;
+			for c in item.contract_types.all():
+				html = html + '<li>' + c.name + '</li>'
+			html = '<ul>' + html + '</ul>'
 		return html
 	contract_types_available.allow_tags = True
 	
