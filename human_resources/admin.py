@@ -44,7 +44,7 @@ class PersonAdmin(HRAdmin):
 		html = ""
 		if item.files.exists():
 			for f in item.files.all():
-				html = html + '<li><a href="' + f.get_url() + '">' + f.name + '</a></li>'
+				html = html + '<li><a href="' + f.person_file.url + '">' + f.name + '</a></li>'
 			html = "<ul>" + html + "</ul>"
 		return html
 	person_files.allow_tags = True
