@@ -57,9 +57,9 @@ class PersonAdmin(HRAdmin):
 	list_display = ('name', 'candidacies')
 	
 	fieldsets = (
-		('', 
+		('', {
 			'fields': ('status',)
-		),
+		}),
 		('General Info', {
 			'fields': ('first_name','middle_name', 'last_name',),
 		}),
