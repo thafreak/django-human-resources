@@ -294,6 +294,10 @@ class EvaluationAdmin(admin.ModelAdmin):
 	rank.admin_order_field = 'candidacy__rank'
 	
 	raw_id_fields = ('candidacy', )
+	related_lookup_fields = {
+		'fk': ['candidacy']
+	}
+	
 	inlines = [InterviewInline]
 	list_filter = ('status', 'candidacy__job_opportunity', 'candidacy__person', 'candidacy__rank')
 	list_display = ('person', 'rank', 'job_opportunity', 'qualifications', 'nice_to_haves', 'status')
