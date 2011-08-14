@@ -44,7 +44,7 @@ class PersonAdmin(HRAdmin):
 		html = ""
 		if item.files.exists():
 			for f in item.files.all():
-				html = html + '<li><a href="' + f.person_file.url + '">' + f.name + '</a></li>'
+				html = html + '<li><a target="_blank" href="' + f.person_file.url + '">' + f.name + '</a></li>'
 			html = "<ul>" + html + "</ul>"
 		return html
 	person_files.allow_tags = True
@@ -77,8 +77,8 @@ class PersonAdmin(HRAdmin):
 	candidacies.allow_tags = True
 	
 	inlines = [WebLinkInline, FileInline]
-	
-	list_display = ('name', 'contact_info', 'candidacies', 'person_files')
+	list_filter = ('status', )
+	list_display = ('name', 'status', 'contact_info', 'candidacies', 'person_files')
 	
 	fieldsets = (
 		('', {
