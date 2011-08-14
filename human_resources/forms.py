@@ -21,8 +21,8 @@ class EvaluationChangeForm(forms.ModelForm):
 		job_opportunity = self.instance.candidacy.job_opportunity
 		job_opportunity_position = job_opportunity.position
 		
-		qualifications_queryset = Qualification.objects.filter(position__pk=self.instance.id)
-		nice_to_haves_queryset = NiceToHave.objects.filter(position__pk=self.instance.id)
+		qualifications_queryset = Qualification.objects.filter(position__pk=self.instance.candidacy.job_opportunity.position.id)
+		nice_to_haves_queryset = NiceToHave.objects.filter(position__pk=self.instance.candidacy.job_opportunity.position.id)
 		
 		self.fields['satisfied_qualifications'].queryset = qualifications_queryset
 		self.fields['satisfied_nice_to_haves'].queryset = nice_to_haves_queryset
