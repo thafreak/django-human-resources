@@ -1,0 +1,1 @@
+1. Specify HR_UPLOAD_TO in settings.py or defaults to MEDIA_ROOT

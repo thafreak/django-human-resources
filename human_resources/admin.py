@@ -4,7 +4,9 @@ from django.contrib import admin
 from django.db.models import URLField
 from django.http import HttpResponseRedirect
 
-from human_resources.models import Person, WebLink, JobOpportunity, NiceToHave, Candidacy, Position, Qualification, Responsibility, ContractType, Evaluation, Interview
+from human_resources.models import Person, WebLink, JobOpportunity, \
+NiceToHave, Candidacy, Position, Qualification, Responsibility, \
+ContractType, Evaluation, Interview, File, Benefit
 from human_resources.forms import EvaluationAddForm, EvaluationChangeForm
 from human_resources.widgets import WebLinkWidget
 
@@ -28,6 +30,10 @@ class WebLinkInline(HRTabularInline):
 	}
 
 
+class FileInline(HRTabularInline):
+	model = File
+	extra = 0
+
 class PersonAdmin(HRAdmin):
 	
 	def name(self, item):
@@ -46,7 +52,7 @@ class PersonAdmin(HRAdmin):
 		return html
 	candidacies.allow_tags = True
 	
-	inlines = [WebLinkInline]
+	inlines = [WebLinkInline, FileInline]
 	
 	list_display = ('name', 'candidacies')
 	
@@ -83,11 +89,9 @@ class NiceToHaveInline(HRTabularInline):
 	extra = 0
 
 
-class ResponsibilityAdmin(HRAdmin):
-	inlines = [QualificationInline, NiceToHaveInline]
-	list_display = ('name', 'description')
-	
-	fields = ('name', 'description')
+class ResponsibilityInline(HRTabularInline):
+	model = Responsibility
+	extra = 0
 
 class PositionAdmin(HRAdmin):
 	
@@ -113,15 +117,11 @@ class PositionAdmin(HRAdmin):
 		return html
 	position_responsibilities.allow_tags = True
 	
-	filter_horizontal = ('responsibilities',)
-	list_filter = ('status','responsibilities')
-	list_display = ('name', 'private_description', 'position_responsibilities', 'importance', 'status')
+	inlines = [ResponsibilityInline, QualificationInline, NiceToHaveInline]
+	list_display = ('name', 'private_description', 'position_responsibilities', 'importance')
 	fieldsets = (
-		('', {
-			"fields": ('status',),
-		}),
 		('General Info', {
-			"fields": ('name', 'importance', 'private_description', 'responsibilities', 'public_description'),
+			"fields": ('name', 'importance', 'private_description', 'public_description'),
 		}),
 	)
 
@@ -144,16 +144,19 @@ class JobOpportunityAdmin(HRAdmin):
 		return html
 	contract_types_available.allow_tags = True
 	
-	filter_horizontal = ('contract_types',)
+	filter_horizontal = ('contract_types','benefits')
 	inlines = [CandidacyInline]
 	list_display = ('position', 'location', 'contract_types_available', 'status')
 	list_filter = ('status','contract_types', 'position',)
 	fieldsets = (
 		('', {
-			"fields": ('status',),
+			"fields": ('published_status', 'status',),
 		}),
 		('General Info', {
-			"fields": ('position','location', 'contract_types'),
+			"fields": ('position','location',),
+		}),
+		('Deal Info', {
+			"fields":  ('pay', 'contract_types', 'benefits'),
 		}),
 	)
 
@@ -295,8 +298,8 @@ class EvaluationAdmin(admin.ModelAdmin):
 
 
 admin.site.register(ContractType)
+admin.site.register(Benefit)
 admin.site.register(JobOpportunity, JobOpportunityAdmin)
 admin.site.register(Position, PositionAdmin)
 admin.site.register(Evaluation, EvaluationAdmin)
 admin.site.register(Person, PersonAdmin)
-admin.site.register(Responsibility, ResponsibilityAdmin)
