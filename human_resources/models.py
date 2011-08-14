@@ -227,6 +227,7 @@ class Candidacy(HRModel):
 
 class Interview(HRModel):
 	INTERVIEW_TYPE = (
+		(0, "Online"),
 		(1, "Phone"),
 		(2, "In-person"),
 	)
