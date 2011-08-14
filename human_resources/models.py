@@ -37,8 +37,8 @@ class Person(HRModel):
 	
 	PERSON_STATUS_CHOICES = (
 		(0, "Of Interest"),
-		(1, "Candidate"),
-		(2, "Former Candidate"),
+		(1, "Applicant"),
+		(2, "Former Applicant"),
 		(3, "Employee"),
 		(4, "Former Employee"),
 		(5, "Independent Contractor"),
