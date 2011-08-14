@@ -165,9 +165,18 @@ class JobOpportunityAdmin(HRAdmin):
 		return html
 	contract_types_available.allow_tags = True
 	
+	def benefits_offered(self, item):
+		html = ""
+		if item.benefits.exists():
+			for b in item.benefits.all():
+				html = html + '<li>' + b.name + '</li>'
+			html = '<ul>' + html + '</ul>'
+		return html
+	benefits_offered.allow_tags = True
+	
 	filter_horizontal = ('contract_types','benefits')
 	inlines = [CandidacyInline]
-	list_display = ('position', 'location', 'contract_types_available', 'status', 'published_status')
+	list_display = ('position', 'location', 'pay', 'contract_types_available', 'benefits_offered', 'status', 'published_status')
 	list_filter = ('published_status', 'status','contract_types', 'position',)
 	fieldsets = (
 		('', {
