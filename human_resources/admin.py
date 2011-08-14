@@ -282,6 +282,10 @@ class EvaluationAdmin(admin.ModelAdmin):
 	job_opportunity.allow_tags = True
 	job_opportunity.admin_order_field = 'candidacy__job_opportunity'
 	
+	def position(self, item):
+		return '<a href="/admin/human_resources/position/ ' + str(item.candidacy.job_opportunity.position.id) + ' /">' + item.candidacy.job_opportunity.position + '</a>'
+	position.allow_tags = True
+	
 	def rank(self, item):
 		return item.candidacy.rank
 	rank.admin_order_field = 'candidacy__rank'
@@ -292,8 +296,8 @@ class EvaluationAdmin(admin.ModelAdmin):
 	}
 	
 	inlines = [InterviewInline]
-	list_filter = ('status', 'candidacy__job_opportunity', 'candidacy__person', 'candidacy__rank')
-	list_display = ('person', 'rank', 'job_opportunity', 'qualifications', 'nice_to_haves', 'status')
+	list_filter = ('status', 'candidacy__job_opportunity', 'candidacy__job_opportunity__position', 'candidacy__person', 'candidacy__rank')
+	list_display = ('person', 'rank', 'job_opportunity', 'position', 'qualifications', 'nice_to_haves', 'status')
 	add_form = EvaluationAddForm
 	filter_horizontal = ('satisfied_qualifications', 'satisfied_nice_to_haves')
 	change_form = EvaluationChangeForm
