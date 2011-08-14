@@ -283,7 +283,7 @@ class EvaluationAdmin(admin.ModelAdmin):
 	job_opportunity.admin_order_field = 'candidacy__job_opportunity'
 	
 	def position(self, item):
-		return '<a href="/admin/human_resources/position/ ' + str(item.candidacy.job_opportunity.position.id) + ' /">' + item.candidacy.job_opportunity.position + '</a>'
+		return '<a href="/admin/human_resources/position/ ' + str(item.candidacy.job_opportunity.position.id) + ' /">' + str(item.candidacy.job_opportunity.position) + '</a>'
 	position.allow_tags = True
 	
 	def rank(self, item):
