@@ -230,15 +230,16 @@ class EvaluationAdmin(admin.ModelAdmin):
 			}
 			qualifications.append(q_dic)
 		
-			for q_dict in qualifications:
-				if q_dict['has_qualification']:
-					img_src = '/dev_media/grappelli/img/admin/icon-yes.gif'
-				else:
-					img_src = '/dev_media/grappelli/img/admin/icon-no.gif'
-				html = html + '<li style="margin-bottom:10px;"><img style="margin-right: 5px; " src="' + img_src + '" />' + q_dict['qualification'].description + '</li>'
-			
-			html = '<ul>' + html + '</ul>'
+		for q_dict in qualifications:
+			if q_dict['has_qualification']:
+				img_src = '/dev_media/grappelli/img/admin/icon-yes.gif'
+			else:
+				img_src = '/dev_media/grappelli/img/admin/icon-no.gif'
+			html = html + '<li style="margin-bottom:10px;"><img style="margin-right: 5px; " src="' + img_src + '" />' + q_dict['qualification'].description + '</li>'
 		
+		if qualifications:
+			html = '<ul>' + html + '</ul>'
+	
 		return html
 	qualifications.allow_tags = True
 	
@@ -261,13 +262,14 @@ class EvaluationAdmin(admin.ModelAdmin):
 			}
 			nice_to_haves.append(n_dic)
 		
-			for n_dict in nice_to_haves:
-				if n_dict['has_nice_to_have']:
-					img_src = '/dev_media/grappelli/img/admin/icon-yes.gif'
-				else:
-					img_src = '/dev_media/grappelli/img/admin/icon-no.gif'
-				html = html + '<li style="margin-bottom:10px;"><img style="margin-right: 5px; " src="' + img_src + '" />' + n_dict['nice_to_have'].description + '</li>'
-			
+		for n_dict in nice_to_haves:
+			if n_dict['has_nice_to_have']:
+				img_src = '/dev_media/grappelli/img/admin/icon-yes.gif'
+			else:
+				img_src = '/dev_media/grappelli/img/admin/icon-no.gif'
+			html = html + '<li style="margin-bottom:10px;"><img style="margin-right: 5px; " src="' + img_src + '" />' + n_dict['nice_to_have'].description + '</li>'
+		
+		if nice_to_haves:
 			html = '<ul>' + html + '</ul>'
 	
 		return html
