@@ -44,11 +44,11 @@ class PersonAdmin(HRAdmin):
 		html = ""
 		if item.email or item.mobile_phone or item.other_phone:
 			if item.email:
-				html = html + '<li><span style="font-weight:bold;">Email:</span><a href="mailto:' + item.email + '">' + item.email + '</a></li>'
+				html = html + '<li><span style="font-weight:bold;">Email: </span><a href="mailto:' + item.email + '">' + item.email + '</a></li>'
 			if item.mobile_phone:
-				html = html + '<li><span style="font-weight:bold;">Mobile Phone:</span> ' + item.mobile_phone + '</li>'
+				html = html + '<li><span style="font-weight:bold;">Mobile Phone: </span>' + item.mobile_phone + '</li>'
 			if item.other_phone:
-				html = html + '<li><span style="font-weight:bold;">Other Phone:</span> ' + item.other_phone + '</li>'
+				html = html + '<li><span style="font-weight:bold;">Other Phone: </span>' + item.other_phone + '</li>'
 			html = "<ul>" + html + "</ul>"
 		return html
 	contact_info.allow_tags = True
