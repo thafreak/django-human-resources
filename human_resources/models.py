@@ -154,7 +154,7 @@ class Position(HRModel):
 		super(Position, self).save()
 	
 	def __unicode__(self):
-		return "%s Position" %(self.name)
+		return "%s" %(self.name)
 
 class Benefit(HRModel):
 	name = models.CharField(max_length=125, unique=True)
