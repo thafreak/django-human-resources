@@ -116,7 +116,10 @@ class NiceToHave(HRModel):
 	description = models.CharField(max_length=250)
 
 	def __unicode__(self):
-		return "%s" %(self.description[:15] + '...')
+		if len(self.description) > 15:
+			return "%s" %(self.description[:15] + '...')
+		else:
+			return self.description
 	
 	class Meta:
 		unique_together = ('description', 'position')
@@ -127,7 +130,10 @@ class Responsibility(HRModel):
 	description = models.CharField(max_length=250)
 	
 	def __unicode__(self):
-		return "%s: %s" %(self.position, self.description[:15] + '...')
+		if len(self.description) > 15:
+			return "%s" %(self.description[:15] + '...')
+		else:
+			return self.description
 	
 	class Meta:
 		verbose_name_plural = 'responsibilities'
