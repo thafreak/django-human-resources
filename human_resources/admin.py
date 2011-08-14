@@ -70,7 +70,7 @@ class PersonAdmin(HRAdmin):
 		
 		if item.candidacy_set.all():
 			for candidacy in item.candidacy_set.all():
-				html = html + '<li style="list-style-type: disc; list-style-position: inside; "><a href="/admin/human_resources/candidacy/' + str(candidacy.id) + '/">' + str(candidacy.job_opportunity) + '</a></li>'
+				html = html + '<li style="list-style-type: disc; list-style-position: inside; "><a href="/admin/human_resources/jobopportunity/' + str(candidacy.job_opportunity.id) + '/">' + str(candidacy.job_opportunity) + '</a></li>'
 			html = '<ul>' + html + '</ul>'
 		
 		return html
