@@ -110,7 +110,7 @@ class NiceToHave(HRModel):
 
 class Responsibility(HRModel):
 	position = models.ForeignKey("Position", related_name="responsibilities")
-	description = models.TextField()
+	description = models.TextField(max_length=500)
 	
 	def __unicode__(self):
 		return "%s: %s" %(self.position, self.description[:15] + '...')
