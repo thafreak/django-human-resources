@@ -173,7 +173,7 @@ class JobOpportunityAdmin(HRAdmin):
 	
 	filter_horizontal = ('contract_types','benefits')
 	inlines = [CandidacyInline]
-	list_display = ('position', 'location', 'contract_types_available', 'status')
+	list_display = ('position', 'location', 'contract_types_available', 'status', 'published_status')
 	list_filter = ('status','contract_types', 'position',)
 	fieldsets = (
 		('', {
