@@ -213,25 +213,22 @@ class EvaluationAdmin(admin.ModelAdmin):
 		# loop through all qualifications for this evaluation's candidacy's
 		# job opportunity
 		
-		relevant_responsibilities = item.candidacy.job_opportunity.position.responsibilities.all()
-		
 		qualifications = []
 		
-		if relevant_responsibilities:
-			for role in relevant_responsibilities:
-				if role.qualifications.all():
-					for q in role.qualifications.all():
+		all_qualifications = item.candidacy.job_opportunity.position.qualifications.all()
+		
+		for q in all_qualifications:
 						
-						if q in item.satisfied_qualifications.all():
-							has_q = True
-						else:
-							has_q = False
-							
-						q_dic = {
-							"qualification": q,
-							"has_qualification": has_q
-						}
-						qualifications.append(q_dic)
+			if q in item.satisfied_qualifications.all():
+				has_q = True
+			else:
+				has_q = False
+				
+			q_dic = {
+				"qualification": q,
+				"has_qualification": has_q
+			}
+			qualifications.append(q_dic)
 		
 			for q_dict in qualifications:
 				if q_dict['has_qualification']:
@@ -247,26 +244,22 @@ class EvaluationAdmin(admin.ModelAdmin):
 	
 	def nice_to_haves(self, item):
 		html = ''
-		
-		relevant_responsibilities = item.candidacy.job_opportunity.position.responsibilities.all()
-		
+
 		nice_to_haves = []
 		
-		if relevant_responsibilities:
-			for role in relevant_responsibilities:
-				if role.nice_to_haves.all():
-					for n in role.nice_to_haves.all():
-						
-						if n in item.satisfied_nice_to_haves.all():
-							has_n = True
-						else:
-							has_n = False
-							
-						n_dic = {
-							"nice_to_have": n,
-							"has_nice_to_have": has_n
-						}
-						nice_to_haves.append(n_dic)
+		all_nice_to_haves = item.candidacy.job_opportunity.position.nice_to_haves.all()
+		
+		for n in all_nice_to_haves:
+			if n in item.satisfied_nice_to_haves.all():
+				has_n = True
+			else:
+				has_n = False
+			
+			n_dic = {
+				"nice_to_have": n,
+				"has_nice_to_have": has_n
+			}
+			nice_to_haves.append(n_dic)
 		
 			for n_dict in nice_to_haves:
 				if n_dict['has_nice_to_have']:

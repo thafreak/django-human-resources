@@ -104,7 +104,7 @@ class Qualification(HRModel):
 	description = models.CharField(max_length=250)
 
 	def __unicode__(self):
-		return "%s: %s" %(self.role, self.description[:15] + '...')
+		return "%s: %s" %(self.position, self.description[:15] + '...')
 	
 	class Meta:
 		unique_together = ('description', 'position')
