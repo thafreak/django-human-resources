@@ -40,6 +40,20 @@ class PersonAdmin(HRAdmin):
 		return u'%s, %s' %(item.last_name, item.first_name)
 	name.admin_order_field = 'last_name'
 	
+	def contact_info(self, item):
+		html = ""
+		if item.email or item.mobile_phone or item.other_phone:
+			if item.email:
+			html = html + '<li><span style="font-weight:bold;">Email:</span> ' + item.email + '</li>'
+			if item.mobile_phone:
+				html = html + '<li><span style="font-weight:bold;">Mobile Phone:</span> ' + item.mobile_phone + '</li>'
+			if item.other_phone:
+				html = html + '<li><span style="font-weight:bold;">Other Phone:</span> ' + item.other_phone + '</li>'
+			html = "<ul>" + html + "</ul>"
+		return html
+	contact_info.allow_tags = True
+		
+		
 	
 	def candidacies(self, item):
 		html = ''
@@ -54,7 +68,7 @@ class PersonAdmin(HRAdmin):
 	
 	inlines = [WebLinkInline, FileInline]
 	
-	list_display = ('name', 'candidacies')
+	list_display = ('name', 'contact_info', 'candidacies')
 	
 	fieldsets = (
 		('', {
