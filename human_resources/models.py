@@ -136,7 +136,7 @@ class Responsibility(HRModel):
 
 class Position(HRModel):
 	
-	name = models.CharField(max_length=75)
+	name = models.CharField(max_length=75, unique=True)
 	
 	importance = models.PositiveSmallIntegerField(choices=IMPORTANCE_CHOICES, blank=True, null=True)
  	private_description = models.TextField("Why it's important", blank=True, help_text="This is private and never displayed to the public via the website.")
