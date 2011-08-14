@@ -327,7 +327,7 @@ class EvaluationAdmin(admin.ModelAdmin):
 		return super(EvaluationAdmin, self).response_add(request, obj, post_url_continue)
 	
 
-
+admin.site.register(Candidacy)
 admin.site.register(ContractType)
 admin.site.register(Benefit)
 admin.site.register(JobOpportunity, JobOpportunityAdmin)
