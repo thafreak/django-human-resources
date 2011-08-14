@@ -16,7 +16,8 @@ class EvaluationChangeForm(forms.ModelForm):
 		
 		# Limit qualifications for an evaluation to those that are related
 		# to the job opportunity's position at hand 
-		fdsf-=878d;
+		
+		
 		job_opportunity = self.instance.candidacy.job_opportunity
 		job_opportunity_position = job_opportunity.position
 		relevant_roles = job_opportunity_position.responsibilities.all()
