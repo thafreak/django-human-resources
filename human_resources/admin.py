@@ -1,14 +1,14 @@
 from itertools import chain
 
 from django.contrib import admin
-from django.db.models import URLField
+from django.db.models import URLField, CharField
 from django.http import HttpResponseRedirect
 
 from human_resources.models import Person, WebLink, JobOpportunity, \
 NiceToHave, Candidacy, Position, Qualification, Responsibility, \
 ContractType, Evaluation, Interview, File, Benefit
 from human_resources.forms import EvaluationAddForm, EvaluationChangeForm
-from human_resources.widgets import WebLinkWidget
+from human_resources.widgets import WebLinkWidget, ExtraWideCharFieldWidget
 
 
 
@@ -28,6 +28,7 @@ class WebLinkInline(HRTabularInline):
 	formfield_overrides = {
 		URLField: {'widget': WebLinkWidget},
 	}
+	
 
 
 class FileInline(HRTabularInline):
@@ -110,15 +111,24 @@ class CandidacyInline(HRTabularInline):
 class QualificationInline(HRTabularInline):
 	model = Qualification
 	extra = 0
+	formfield_overrides = {
+		CharField: {'widget': ExtraWideCharFieldWidget},
+	}
 
 class NiceToHaveInline(HRTabularInline):
 	model = NiceToHave
 	extra = 0
+	formfield_overrides = {
+		CharField: {'widget': ExtraWideCharFieldWidget},
+	}
 
 
 class ResponsibilityInline(HRTabularInline):
 	model = Responsibility
 	extra = 0
+	formfield_overrides = {
+		CharField: {'widget': ExtraWideCharFieldWidget},
+	}
 
 class PositionAdmin(HRAdmin):
 	'''
