@@ -143,6 +143,10 @@ class PositionAdmin(HRAdmin):
 		return super(PositionAdmin, self).changelist_view(request, extra_context=extra_context)
 	'''
 	
+	def public_job_description(self, item):
+		return self.public_description
+	public_job_description.allow_tags = True
+	
 	def position_responsibilities(self, item):
 		html = ''
 		
@@ -155,7 +159,7 @@ class PositionAdmin(HRAdmin):
 	position_responsibilities.allow_tags = True
 	
 	inlines = [ResponsibilityInline, QualificationInline, NiceToHaveInline]
-	list_display = ('name', 'private_description', 'position_responsibilities', 'importance')
+	list_display = ('name', 'private_description', 'public_job_description', 'position_responsibilities', 'importance')
 	fieldsets = (
 		('General Info', {
 			"fields": ('name', 'importance', 'private_description', 'public_description'),
