@@ -162,7 +162,7 @@ class PositionAdmin(HRAdmin):
 	position_responsibilities.allow_tags = True
 	
 	inlines = [ResponsibilityInline, QualificationInline, NiceToHaveInline]
-	list_display = ('name', 'private_description', 'public_job_description', 'position_responsibilities', 'importance')
+	list_display = ('name', 'importance', 'private_description', 'public_job_description', 'position_responsibilities',)
 	fieldsets = (
 		('General Info', {
 			"fields": ('name', 'importance', 'private_description', 'public_description'),
