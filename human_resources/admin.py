@@ -144,7 +144,10 @@ class PositionAdmin(HRAdmin):
 	'''
 	
 	def public_job_description(self, item):
-		return self.public_description
+		if item.public_description:
+			return item.public_description
+		else:
+			return ""
 	public_job_description.allow_tags = True
 	
 	def position_responsibilities(self, item):
