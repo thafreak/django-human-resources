@@ -148,7 +148,7 @@ class PositionAdmin(HRAdmin):
 		
 		if item.responsibilities.all():
 			for role in item.responsibilities.all():
-				html = html + '<li style="list-style-type: disc; list-style-position: inside; "><a href="/admin/human_resources/role/' + str(role.id) + '/">' + str(role) + '</a></li>'
+				html = html + '<li style="list-style-type: disc; list-style-position: inside; "><a href="/admin/human_resources/role/' + str(role.id) + '/">' + str(role.description) + '</a></li>'
 			html = '<ul>' + html + '</ul>'
 		
 		return html
