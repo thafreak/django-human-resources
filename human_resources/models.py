@@ -91,6 +91,7 @@ class PersonNote(HRModel):
 
 	class Meta:
 		ordering = ('-date_and_time',)
+		verbose_name = 'note'
 
 
 class WebLink(HRModel):
