@@ -3,6 +3,7 @@ from itertools import chain
 from django.contrib import admin
 from django.db.models import URLField, CharField
 from django.http import HttpResponseRedirect
+from django.core.cache import cache
 
 import twitter
 
