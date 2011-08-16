@@ -99,6 +99,20 @@ class PersonAdmin(HRAdmin):
 	twitter.allow_tags = True
 	
 	
+	def latest_note(self, item):
+		def get_user_representation(user):
+			if user.first_name or user.last_name:
+				return user.first_name + " " + user.last_name
+			else:
+				return user.username
+		
+		if item.notes.all():
+			latest_note = item.notes.all()[0]
+			return '<span style="font-weight:bold;">' + get_user_representation(latest_note.author) + ' on ' + latest_note.date_and_time.strftime("%B %d, %Y") + ': </span>' + latest_note.note
+		else:
+			return ''
+	latest_note.allow_tags = True
+	
 	def name(self, item):
 		return u'%s, %s' %(item.last_name, item.first_name)
 	name.admin_order_field = 'last_name'
@@ -148,7 +162,7 @@ class PersonAdmin(HRAdmin):
 	
 	inlines = [WebLinkInline, FileInline, PersonNoteInline]
 	list_filter = ('status', )
-	list_display = ('name', 'status', 'contact_info', 'candidacies', 'twitter', 'web_links', 'person_files')
+	list_display = ('name', 'status', 'contact_info', 'candidacies', 'twitter', 'web_links', 'person_files', 'latest_note')
 	
 	fieldsets = (
 		('', {
