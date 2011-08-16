@@ -55,6 +55,9 @@ class PersonNoteInline(HRTabularInline):
 
 class PersonAdmin(HRAdmin):
 	
+	TWITTER_CACHE_TIME = 60 * 5 # 5 min
+	twitter_api = twitter.Api()
+	
 	def twitter(self, item):
 		html = ''
 		
