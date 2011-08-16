@@ -4,13 +4,19 @@ from django.contrib import admin
 from django.db.models import URLField, CharField
 from django.http import HttpResponseRedirect
 
+import twitter
+
 from human_resources.models import Person, WebLink, JobOpportunity, \
 NiceToHave, Candidacy, Position, Qualification, Responsibility, \
 ContractType, Evaluation, Interview, File, Benefit, PersonNote
 from human_resources.forms import EvaluationAddForm, EvaluationChangeForm
 from human_resources.widgets import WebLinkWidget, ExtraWideCharFieldWidget
 
-
+try:
+	import memcache
+	memcache_present = True
+except ImportError:
+	memcache_present = False
 
 
 class HRAdmin(admin.ModelAdmin):
@@ -48,6 +54,47 @@ class PersonNoteInline(HRTabularInline):
 
 class PersonAdmin(HRAdmin):
 	
+	def twitter(self, item):
+		html = ''
+		
+		def construct_html():
+			statuses = self.twitter_api.GetUserTimeline(item.twitter_handle)
+			if statuses:
+				latest_tweet = statuses[0].text
+				latest_tweet_html = '<div style="font-weight:bold; margin-bottom:5px;">Latest Tweet:</div><div>'
+				latest_tweet_html = latest_tweet_html + '<div style="margin-bottom:5px;">"' + latest_tweet + '"</div>'
+				link_html = '<a target="_blank" href="http://twitter.com/#!/' + item.twitter_handle + '">@' + item.twitter_handle + '</a>'
+				html = latest_tweet_html + link_html
+			else:
+				html = '<a target="_blank" href="http://twitter.com/#!/' + item.twitter_handle + '">@' + item.twitter_handle + '</a>'
+			return html
+		
+		if item.twitter_handle:
+			# try to get the latest tweet
+			try:
+				# try to access cached status
+				if memcache_present:
+					cache_key = 'twitter_status_html_for_' + str(item.id)
+					
+					# try to get cached html variable
+					if cache.get(cache_key) is not None:
+						html = cache.get(cache_key)
+						
+					else:
+						html = construct_html()
+						cache.set(cache_key, html, self.TWITTER_CACHE_TIME)
+						
+				else:
+					html = construct_html()
+					
+			except twitter.TwitterError:
+				html = '<span>Twitter user not found</span>'
+		else:
+			html = ''
+		return html
+	twitter.allow_tags = True
+	
+	
 	def name(self, item):
 		return u'%s, %s' %(item.last_name, item.first_name)
 	name.admin_order_field = 'last_name'
@@ -75,7 +122,14 @@ class PersonAdmin(HRAdmin):
 		return html
 	contact_info.allow_tags = True
 		
+	def web_links(self,	item):
+		html = ''
 		
+		for web_link in item.web_links.all():
+			html = html + '<li><a target="_blank" href="' + web_link.url + '">' + web_link.name + '</a></li>'
+		html = '<ul>' + html + '</ul>'
+		return html
+	web_links.allow_tags = True	
 	
 	def candidacies(self, item):
 		html = ''
@@ -90,7 +144,7 @@ class PersonAdmin(HRAdmin):
 	
 	inlines = [WebLinkInline, FileInline, PersonNoteInline]
 	list_filter = ('status', )
-	list_display = ('name', 'status', 'contact_info', 'candidacies', 'person_files')
+	list_display = ('name', 'status', 'contact_info', 'candidacies', 'twitter', 'web_links', 'person_files')
 	
 	fieldsets = (
 		('', {

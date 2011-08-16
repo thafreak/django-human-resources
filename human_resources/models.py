@@ -95,7 +95,7 @@ class PersonNote(HRModel):
 
 
 class WebLink(HRModel):
-	person = models.ForeignKey("Person")
+	person = models.ForeignKey("Person", related_name="web_links")
 	name = models.CharField(max_length=25)
 	url = models.URLField(verify_exists=False)
 
