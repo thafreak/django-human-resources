@@ -97,7 +97,7 @@ class PersonNote(HRModel):
 class WebLink(HRModel):
 	person = models.ForeignKey("Person")
 	name = models.CharField(max_length=25)
-	url = models.URLField()
+	url = models.URLField(verify_exists=False)
 
 	def __unicode__(self):
 		return self.name
