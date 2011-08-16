@@ -1,6 +1,7 @@
 import datetime
 
 from django.db import models
+from django.contrib.auth.models import User
 from django.contrib.localflavor.us.models import PhoneNumberField, USStateField
 
 try:
@@ -32,6 +33,18 @@ class HRModel(models.Model):
 		ordering = ('-date_modified',)
 	
 
+
+class PersonNote(SeedModel):
+	author = models.ForeignKey(User)
+	person = models.ForeignKey("Person", related_name="notes")
+	date_and_time = models.DateTimeField("Date & Time", default=datetime.datetime.now)
+	note = models.TextField()
+
+	def __unicode__(self):
+		return u'%s' %(self.date_and_time)
+
+	class Meta:
+		ordering = ('-date_and_time',)
 
 class Person(HRModel):
 	

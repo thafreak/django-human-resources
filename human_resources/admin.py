@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 
 from human_resources.models import Person, WebLink, JobOpportunity, \
 NiceToHave, Candidacy, Position, Qualification, Responsibility, \
-ContractType, Evaluation, Interview, File, Benefit
+ContractType, Evaluation, Interview, File, Benefit, Person
 from human_resources.forms import EvaluationAddForm, EvaluationChangeForm
 from human_resources.widgets import WebLinkWidget, ExtraWideCharFieldWidget
 
@@ -33,6 +33,17 @@ class WebLinkInline(HRTabularInline):
 
 class FileInline(HRTabularInline):
 	model = File
+	extra = 0
+
+
+class PersonNoteInline(HRTabularInline):
+	
+	def formfield_for_foreignkey(self, db_field, request, **kwargs):
+		if db_field.name == 'author':
+			kwargs['initial'] = request.user
+		return super(PersonNoteInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
+	
+	model = Person
 	extra = 0
 
 class PersonAdmin(HRAdmin):
