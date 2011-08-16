@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 
 from human_resources.models import Person, WebLink, JobOpportunity, \
 NiceToHave, Candidacy, Position, Qualification, Responsibility, \
-ContractType, Evaluation, Interview, File, Benefit, Person
+ContractType, Evaluation, Interview, File, Benefit, PersonNote
 from human_resources.forms import EvaluationAddForm, EvaluationChangeForm
 from human_resources.widgets import WebLinkWidget, ExtraWideCharFieldWidget
 
@@ -43,7 +43,7 @@ class PersonNoteInline(HRTabularInline):
 			kwargs['initial'] = request.user
 		return super(PersonNoteInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
 	
-	model = Person
+	model = PersonNote
 	extra = 0
 
 class PersonAdmin(HRAdmin):
@@ -88,7 +88,7 @@ class PersonAdmin(HRAdmin):
 		return html
 	candidacies.allow_tags = True
 	
-	inlines = [WebLinkInline, FileInline]
+	inlines = [WebLinkInline, FileInline, PersonNoteInline]
 	list_filter = ('status', )
 	list_display = ('name', 'status', 'contact_info', 'candidacies', 'person_files')
 	

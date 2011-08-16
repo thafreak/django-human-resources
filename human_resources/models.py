@@ -34,17 +34,7 @@ class HRModel(models.Model):
 	
 
 
-class PersonNote(SeedModel):
-	author = models.ForeignKey(User)
-	person = models.ForeignKey("Person", related_name="notes")
-	date_and_time = models.DateTimeField("Date & Time", default=datetime.datetime.now)
-	note = models.TextField()
 
-	def __unicode__(self):
-		return u'%s' %(self.date_and_time)
-
-	class Meta:
-		ordering = ('-date_and_time',)
 
 class Person(HRModel):
 	
@@ -87,6 +77,20 @@ class Person(HRModel):
 	
 	def __unicode__(self):
 		return "%s %s (%s)" %(self.first_name, self.last_name, self.get_status_display())
+
+
+
+class PersonNote(HRModel):
+	author = models.ForeignKey(User)
+	person = models.ForeignKey("Person", related_name="notes")
+	date_and_time = models.DateTimeField("Date & Time", default=datetime.datetime.now)
+	note = models.TextField()
+
+	def __unicode__(self):
+		return u'%s' %(self.date_and_time)
+
+	class Meta:
+		ordering = ('-date_and_time',)
 
 
 class WebLink(HRModel):
