@@ -231,7 +231,7 @@ class JobOpportunity(HRModel):
 	benefits = models.ManyToManyField("Benefit", blank=True, null=True)
 	position = models.ForeignKey("Position", related_name="job_opportunities")
 	location = models.CharField(max_length=150, default="Tustin, CA (Orange County)")
-	slug = AutoSlugField(populate_from=(max_length=150, 'position', 'location'), overwrite=True)
+	slug = AutoSlugField(max_length=150, populate_from=('position', 'location'), overwrite=True)
 	contract_types = models.ManyToManyField("ContractType")
 	
 	
