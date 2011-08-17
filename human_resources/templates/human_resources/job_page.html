@@ -61,13 +61,13 @@
 					<p><strong>Location: </strong>{{job.location}}</p>
 					
 					<p>
-						<strong>Position type: </strong>
+						<strong>Position type(s): </strong>
 						<span>
 							{% for contract_type in job.contract_types.all %}
 								{% if forloop.last %}
 									{{contract_type.name}}
 								{% else %}
-									{{contract_type.name}}, 
+									{{contract_type.name}}/ 
 								{% endif %}
 							{% endfor %}
 						</span>
