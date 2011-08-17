@@ -58,6 +58,22 @@
 				<div id="mainContent">
 					<h3 class="stylizedHeading">{{job.position.name}}</h3>
 					
+					<p><strong>Location: </strong>{{job.location}}</p>
+					
+					<p>
+						<strong>Position type: </strong>
+						<span>
+							{% for contract_type in job.contract_types.all %}
+								{% if forloop.last %}
+									{{contract_type.name}}
+								{% else %}
+									{{contract_type.name}}, 
+								{% endif %}
+							{% endfor %}
+						</span>
+					</p>
+					
+					
 					{% if job.position.public_description %}
 						<p>{{job.position.public_description|safe}}</p>
 					{% endif %}
