@@ -213,6 +213,11 @@ class ResponsibilityInline(HRTabularInline):
 		CharField: {'widget': ExtraWideCharFieldWidget},
 	}
 
+
+
+
+
+
 class PositionAdmin(HRAdmin):
 	'''
 	def changelist_view(self, request, extra_context=None):
@@ -251,8 +256,20 @@ class PositionAdmin(HRAdmin):
 			"fields": ('name', 'importance', 'private_description', 'public_description'),
 		}),
 	)
+	
+	class Media:
+		js = ['/dev_media/grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', '/dev_media/grappelli/tinymce_setup/tinymce_setup.js',]
+	
 
 
+
+def publish_job_opportunity(modeladmin, request, queryset):
+	queryset.update(published_status=JobOpportunity.OPPORTUNITY_STATUS_CHOICES[1][0])
+publish_job_opportunity.short_description = "Publish selected job opportunities"
+
+def unpublish_job_opportunity(modeladmin, request, queryset):
+	queryset.update(published_status=JobOpportunity.OPPORTUNITY_STATUS_CHOICES[0][0])
+unpublish_job_opportunity.short_description = "Unpublish selected job opportunities"
 
 class JobOpportunityAdmin(HRAdmin):
 	
@@ -274,6 +291,7 @@ class JobOpportunityAdmin(HRAdmin):
 		return html
 	benefits_offered.allow_tags = True
 	
+	actions = [publish_job_opportunity, unpublish_job_opportunity]
 	filter_horizontal = ('contract_types','benefits')
 	inlines = [CandidacyInline]
 	list_display = ('position', 'location', 'pay', 'contract_types_available', 'benefits_offered', 'status', 'published_status')
@@ -289,6 +307,10 @@ class JobOpportunityAdmin(HRAdmin):
 			"fields":  ('pay', 'contract_types', 'benefits'),
 		}),
 	)
+	
+	class Media:
+		js = ['/dev_media/grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js', '/dev_media/grappelli/tinymce_setup/tinymce_setup.js',]
+	
 
 class InterviewInline(HRTabularInline):
 	model = Interview

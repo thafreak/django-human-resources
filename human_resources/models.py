@@ -1,8 +1,11 @@
 import datetime
 
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.localflavor.us.models import PhoneNumberField, USStateField
+
+from django_extensions.db.fields import AutoSlugField
 
 try:
 	from django.conf import settings
@@ -164,7 +167,6 @@ class Responsibility(HRModel):
 class Position(HRModel):
 	
 	name = models.CharField(max_length=75, unique=True)
-	
 	importance = models.PositiveSmallIntegerField(choices=IMPORTANCE_CHOICES, blank=True, null=True)
  	private_description = models.TextField("Why it's important", blank=True, help_text="This is private and never displayed to the public via the website.")
 	public_description = models.TextField(blank=True, help_text="This is the public description displayed via the website.")
@@ -229,7 +231,13 @@ class JobOpportunity(HRModel):
 	benefits = models.ManyToManyField("Benefit", blank=True, null=True)
 	position = models.ForeignKey("Position", related_name="job_opportunities")
 	location = models.CharField(max_length=150, default="Tustin, CA (Orange County)")
+	slug = AutoSlugField(populate_from=('position', 'location'), overwrite=True)
 	contract_types = models.ManyToManyField("ContractType")
+	
+	
+	def get_absolute_url(self):
+		return ('/jobs/%s/' %(self.slug))
+		#return reverse('job_page', kwargs={"position_slug": self.position.slug, "location_slug": self.location_slug, "job_id": self.pk})
 	
 	def __unicode__(self):
 		return "%s - %s" %(self.position, self.location)

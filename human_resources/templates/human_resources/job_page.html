@@ -1,0 +1,120 @@
+{% extends "__base.html" %}
+
+{% block content %}
+
+		<style>
+		
+			.applyNotes{
+				padding-top:5px;
+				font-size:12px;
+			}
+		
+			.applyWrapper{
+				padding-top:40px;
+				padding-bottom:40px;
+				text-align:center;
+			}
+			.jobLink{
+				font-size:30px;
+				text-decoration:none;
+				color: #000;
+				background: #999;
+				border-radius:5px;
+				padding:3px;
+				padding-top:4px;
+				
+				padding-left:8px;
+				padding-right:8px;
+
+				-webkit-transition:all 0.1s ease-out;
+				-moz-transition:all 0.1s ease-out;
+				-o-transition:all 0.1s ease-out;
+				transition:all 0.1s ease-out;  
+			}
+
+			.jobLink:hover{
+				background:#fff;
+			}
+		
+			#otherJobsHeading{
+				display:block;
+				
+				padding-top: 20px;
+			}
+			
+			.stylizedHeading{
+				font-size: 30px;
+				font-family: ArualLight, helvetica, arial, sans-serif;
+				font-weight: 100;
+				margin-bottom: 10px;
+			}
+			
+		</style>
+		
+		<div id="mainContentWrapper">
+
+			<div id="mainContentTopFader"></div>
+
+				<div id="mainContent">
+					<h3 class="stylizedHeading">{{job.position.name}}</h3>
+					
+					{% if job.position.public_description %}
+						<p>{{job.position.public_description|safe}}</p>
+					{% endif %}
+					
+					{% if job.position.qualifications.all %}
+						<p><strong>Qualifications</strong></p>
+						
+						<ul>
+							{% for qualification in job.position.qualifications.all %}
+								<li>{{qualification.description}}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+					
+					{% if job.position.nice_to_haves.all %}
+						<p><strong>Nice-to-haves</strong></p>
+						
+						<ul>
+							{% for nice_to_have in job.position.nice_to_haves.all %}
+								<li>{{nice_to_have.description}}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+					
+					
+					<div class="applyWrapper">
+						<div>
+							<a href="mailto:jobs@theprojecta.com?subject=Application for {{job.position.name}} in {{job.location}} [ Job #{{job.id}} ]&body=Dear Project A," class="jobLink"><span class="pictos" style="padding-right:10px;">W</span>Apply for this Job</a><br/>
+						</div>
+						<div class="applyNotes">Don't forget to include your resume and any references to your work!</div>	
+					</div>
+					
+					
+				
+					
+					<h3 class="stylizedHeading">Not a fit?</h3>
+					<p>
+						If you are not quite a fit for our current job openings, but like <a href="/meet/about/">what we are doing</a> and resonate with <a href="/meet/philosophy/">our ethos</a>, we still want to hear from you! Send us an email at <strong>MakeMeAJob AT theprojecta DOT com</strong>. Include a detailed description of the job you see yourself rocking at, how the functions of your job will contribute to Project A's growth, and most importantly, <em>why</em> you are qualified to perform it. Consider this a formal job application so append your cover letter and resume. Happy job creating!						
+					</p>
+					
+					{% if other_jobs %}
+					
+						<h3 id="otherJobsHeading" class="stylizedHeading">Other opportunities</h3>
+						<ul>
+							{% for other_job in other_jobs %}
+								<li><a href="{{other_job.get_absolute_url}}">{{other_job.position.name}} in {{other_job.location}}</a></li>
+							{% endfor %}
+						</ul>
+
+					{% endif %}
+				</div>
+
+			<div id="mainContentBottomFader"></div>
+
+		</div>
+		
+		
+		
+			
+{%endblock%}

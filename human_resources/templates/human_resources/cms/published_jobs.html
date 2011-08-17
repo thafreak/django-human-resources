@@ -1,0 +1,42 @@
+
+
+{% if jobs %}
+
+
+<style>
+
+	.jobLink{
+		font-size:14px;
+		text-decoration:none;
+		color: #000;
+		background: #D6D6D6;
+		border-radius:5px;
+		padding:3px;
+		padding-top:4px;
+		margin-left:20px;
+		padding-left:8px;
+		padding-right:8px;
+		
+		-webkit-transition:all 0.1s ease-out;
+		-moz-transition:all 0.1s ease-out;
+		-o-transition:all 0.1s ease-out;
+		transition:all 0.1s ease-out;  
+	}
+	
+	.jobLink:hover{
+		background:#fff;
+	}
+
+</style>
+
+<p><strong>Current Job Opportunities</strong></p>
+
+<ul>
+	{% for job in jobs %}
+		<li>{{job.position.name}} in {{job.location}} <a class="jobLink" href="{{job.get_absolute_url}}">Learn more<span style="padding-left:8px;" class="pictos">4</span></a></li>
+	{% endfor %}
+</ul>
+
+{% else %}
+	<p>Currently, we have no job opportunities available but we are always interested to hear from passionate individuals interested in what we do.</p>
+{% endif %}
