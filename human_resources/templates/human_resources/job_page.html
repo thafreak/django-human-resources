@@ -73,9 +73,22 @@
 						</span>
 					</p>
 					
+					{% if job.pay %}
+						<p>
+							<strong>Pay: </strong>
+							<span>{{job.pay}}</span>
+						</p>
+					{% endif %}
+					
 					
 					{% if job.position.public_description %}
-						<p>{{job.position.public_description|safe}}</p>
+						<p>
+							<strong>Description</strong>
+							
+							<div>
+								{{job.position.public_description|safe}}
+							</div>
+						</p>
 					{% endif %}
 					
 					{% if job.position.qualifications.all %}
