@@ -14,26 +14,34 @@
 				padding-bottom:40px;
 				text-align:center;
 			}
-			.applyForJobLink{
-				font-size:30px;
-				text-decoration:none;
+			
+			.jobLink{
+				font-size: 14px;
+				text-decoration: none;
 				color: #000;
-				background: #999;
-				border-radius:5px;
-				padding:3px;
-				padding-top:4px;
-				
-				padding-left:8px;
-				padding-right:8px;
-
-				-webkit-transition:all 0.1s ease-out;
-				-moz-transition:all 0.1s ease-out;
-				-o-transition:all 0.1s ease-out;
-				transition:all 0.1s ease-out;  
+				background: #D6D6D6;
+				-moz-border-radius: 5px;
+				-webkit-border-radius: 5px;
+				border-radius: 5px;
+				padding: 3px;
+				padding-left: 8px;
+				padding-right: 8px;
+				padding-top: 4px;
+				margin-bottom:20px;
+				-webkit-transition: all 0.1s ease-out;
+				-moz-transition: all 0.1s ease-out;
+				-o-transition: all 0.1s ease-out;
+				transition: all 0.1s ease-out;
 			}
-
-			.applyForJobLink:hover{
-				background:#fff;
+			
+			.jobLink:hover{
+				background: #fff;
+			}
+			
+			.applyForJobLink{
+				font-size:30px !important;
+				color: #000;
+				background: #999 !important;
 			}
 		
 			#otherJobsHeading{
@@ -116,7 +124,7 @@
 					
 					<div class="applyWrapper">
 						<div>
-							<a href="mailto:jobs@theprojecta.com?subject=Application for {{job.position.name}} in {{job.location}} [ Job #{{job.id}} ]&body=Dear Project A," class="applyForJobLink"><span class="pictos" style="padding-right:10px;">W</span>Apply for this Job</a><br/>
+							<a href="mailto:jobs@theprojecta.com?subject=Application for {{job.position.name}} in {{job.location}} [ Job #{{job.id}} ]&body=Dear Project A," class="jobLink applyForJobLink"><span class="pictos" style="padding-right:10px;">W</span>Apply for this Job</a><br/>
 						</div>
 						<div class="applyNotes">Don't forget to include your resume and any references to your work!</div>	
 					</div>
